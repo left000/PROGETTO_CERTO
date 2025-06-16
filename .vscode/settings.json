@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "certificato.h": "c",
+    "stdio.h": "c"
+  }
+}
