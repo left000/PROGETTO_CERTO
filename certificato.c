@@ -5,10 +5,11 @@
 
 #define MAX 100
 #define MAX_AZIENDE 100
+#define MAX_PRODOTTI 100
 
+Prodotto prodotti[MAX_PRODOTTI];
 Azienda aziende[MAX_AZIENDE];
 Azienda aziende[MAX];
-Prodotto prodotti[MAX];
 Destinazione destinazioni[MAX];
 
 int contaAziende = 0;
@@ -66,10 +67,16 @@ void stampaAziende()
 
 void creaProdotto()
 {
+  if (contaProdotti >= MAX_PRODOTTI)
+  {
+    printf("Numero massimo di prodotti raggiunto.\n");
+    return;
+  }
+
   Prodotto pr;
   pr.id = contaProdotti + 1;
 
-  printf("Descrizione: ");
+  printf("Descrizione prodotto: ");
   getchar();
   fgets(pr.descrizione, sizeof(pr.descrizione), stdin);
   pr.descrizione[strcspn(pr.descrizione, "\n")] = 0;
@@ -81,7 +88,9 @@ void creaProdotto()
   scanf("%f", &pr.valore_euro);
 
   printf("Codice TARIC: ");
-  scanf("%s", pr.codice_taric);
+  getchar();
+  fgets(pr.codice_taric, sizeof(pr.codice_taric), stdin);
+  pr.codice_taric[strcspn(pr.codice_taric, "\n")] = 0;
 
   prodotti[contaProdotti++] = pr;
   printf("Prodotto creato con ID %d\n", pr.id);
@@ -90,6 +99,25 @@ void creaProdotto()
 void inizializzaLista(ListaCertificati *lista)
 {
   *lista = NULL;
+}
+
+void stampaProdotto()
+{
+  if (contaProdotti == 0)
+  {
+    printf("Nessun prodotto disponibile.\n");
+    return;
+  }
+
+  printf("\n--- Lista Prodotti ---\n");
+  for (int i = 0; i < contaProdotti; i++)
+  {
+    printf("ID: %d\n", prodotti[i].id);
+    printf("  Descrizione: %s\n", prodotti[i].descrizione);
+    printf("  Peso: %.2f kg\n", prodotti[i].peso_kg);
+    printf("  Valore: %.2f euro\n", prodotti[i].valore_euro);
+    printf("  Codice TARIC: %s\n\n", prodotti[i].codice_taric);
+  }
 }
 
 void inserisciCertificatoDaTastiera(ListaCertificati *lista)

@@ -32,11 +32,10 @@ int main()
       stampaAziende();
       break;
     case 3:
-      // creaDestinazione();
-      printf("Crea Destinazione!");
+      creaProdotto();
       break;
     case 4:
-      inserisciCertificatoDaTastiera(&lista);
+      stampaProdotto();
       break;
     case 5:
       stampaListaCertificati(lista);
