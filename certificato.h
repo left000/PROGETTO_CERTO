@@ -55,7 +55,10 @@ typedef struct NodoCertificato
 typedef NodoCertificato *ListaCertificati;
 
 void creaAzienda();
+void stampaAziende();
 void creaProdotto();
+void stampaProdotto();
+
 void inizializzaLista(ListaCertificati *lista);
 void inserisciCertificatoDaTastiera(ListaCertificati *lista);
 void stampaListaCertificati(ListaCertificati lista);

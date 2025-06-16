@@ -11,10 +11,14 @@ int main()
   {
     printf("\nMENU PRINCIPALE:\n");
     printf("1 - Crea Azienda\n");
-    printf("2 - Crea Prodotto\n");
-    printf("3 - Crea Destinazione\n");
-    printf("4 - Crea Certificato di Origine\n");
-    printf("5 - Stampa Certificati\n");
+    printf("2 - Visualizza Aziende\n");
+    printf("3 - Crea Prodotto\n");
+    printf("4 - Visualizza Prodotto\n");
+    printf("5 - Crea Destinazione\n");
+    printf("6 - Visualizza Destinazione\n");
+    printf("7 - Creare un Certificato\n");
+    printf("8 - Crea Certificato di Origine\n");
+    printf("9 - Stampa Certificati\n");
     printf("0 - Esci\n");
     printf("Scelta: ");
     scanf("%d", &scelta);
@@ -25,7 +29,7 @@ int main()
       creaAzienda();
       break;
     case 2:
-      creaProdotto();
+      stampaAziende();
       break;
     case 3:
       // creaDestinazione();
