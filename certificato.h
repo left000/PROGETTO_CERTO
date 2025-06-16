@@ -58,6 +58,8 @@ void creaAzienda();
 void stampaAziende();
 void creaProdotto();
 void stampaProdotto();
+void creaDestinazione();
+void stampaDestinazioni();
 
 void inizializzaLista(ListaCertificati *lista);
 void inserisciCertificatoDaTastiera(ListaCertificati *lista);

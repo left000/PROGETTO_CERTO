@@ -6,11 +6,11 @@
 #define MAX 100
 #define MAX_AZIENDE 100
 #define MAX_PRODOTTI 100
+#define MAX_DESTINAZIONI 100
 
-Prodotto prodotti[MAX_PRODOTTI];
 Azienda aziende[MAX_AZIENDE];
-Azienda aziende[MAX];
-Destinazione destinazioni[MAX];
+Prodotto prodotti[MAX_PRODOTTI];
+Destinazione destinazioni[MAX_DESTINAZIONI];
 
 int contaAziende = 0;
 int contaProdotti = 0;
@@ -96,6 +96,54 @@ void creaProdotto()
   printf("Prodotto creato con ID %d\n", pr.id);
 }
 
+void creaDestinazione()
+{
+  if (contaDestinazioni >= MAX_DESTINAZIONI)
+  {
+    printf("⚠ Numero massimo di destinazioni raggiunto.\n");
+    return;
+  }
+
+  Destinazione d;
+  d.id = contaDestinazioni + 1;
+
+  getchar();
+  printf("Paese: ");
+  fgets(d.paese, sizeof(d.paese), stdin);
+  d.paese[strcspn(d.paese, "\n")] = 0;
+
+  printf("Porto di arrivo: ");
+  fgets(d.porto_arrivo, sizeof(d.porto_arrivo), stdin);
+  d.porto_arrivo[strcspn(d.porto_arrivo, "\n")] = 0;
+
+  printf("Mezzo di trasporto: ");
+  fgets(d.mezzo_trasporto, sizeof(d.mezzo_trasporto), stdin);
+  d.mezzo_trasporto[strcspn(d.mezzo_trasporto, "\n")] = 0;
+
+  destinazioni[contaDestinazioni++] = d;
+
+  printf("Destinazione creata con ID %d\n", d.id);
+}
+
+void stampaDestinazioni()
+{
+  if (contaDestinazioni == 0)
+  {
+    printf("⚠ Nessuna destinazione disponibile.\n");
+    return;
+  }
+
+  printf("\n Elenco Destinazioni:\n");
+  for (int i = 0; i < contaDestinazioni; i++)
+  {
+    printf("ID: %d | Paese: %s | Porto: %s | Trasporto: %s\n",
+           destinazioni[i].id,
+           destinazioni[i].paese,
+           destinazioni[i].porto_arrivo,
+           destinazioni[i].mezzo_trasporto);
+  }
+}
+
 void inizializzaLista(ListaCertificati *lista)
 {
   *lista = NULL;
@@ -122,63 +170,67 @@ void stampaProdotto()
 
 void inserisciCertificatoDaTastiera(ListaCertificati *lista)
 {
-  CertificatoOrigine cert;
-  static int nextCertificatoId = 1;
+  CertificatoOrigine c;
 
-  cert.id_certificato = nextCertificatoId++;
+  static int idCertificatoProgressivo = 1;
+  c.id_certificato = idCertificatoProgressivo++;
 
-  printf("\n--- Seleziona Azienda per il certificato ---\n");
-  for (int i = 0; i < contaAziende; i++)
+  if (contaAziende == 0)
   {
-    printf("ID: %d - %s\n", aziende[i].id, aziende[i].ragione_sociale);
+    printf("Nessuna azienda disponibile. Creane una prima.\n");
+    return;
   }
-  int id_az;
-  printf("Inserisci ID azienda: ");
-  scanf("%d", &id_az);
+  stampaAziende();
+  printf("Inserisci ID dell'azienda: ");
+  scanf("%d", &c.id_azienda);
 
-  int aziendaTrovata = 0;
-  for (int i = 0; i < contaAziende; i++)
+  if (contaProdotti == 0)
   {
-    if (aziende[i].id == id_az)
-    {
-      aziendaTrovata = 1;
-      break;
-    }
+    printf("Nessun prodotto disponibile. Creane uno prima.\n");
+    return;
   }
+  stampaProdotto();
+  printf("Inserisci ID del prodotto: ");
+  scanf("%d", &c.id_prodotto);
 
-  if (!aziendaTrovata)
+  if (contaDestinazioni == 0)
   {
-    printf("ID azienda non valido. Operazione annullata.\n");
+    printf("Nessuna destinazione disponibile. Creane una prima.\n");
+    return;
+  }
+  stampaDestinazioni();
+
+  printf("Inserisci ID della destinazione: ");
+  scanf("%d", &c.id_destinazione);
+
+  printf("Inserisci data emissione (gg mm aaaa): ");
+  scanf("%d %d %d", &c.data_emissione.giorno, &c.data_emissione.mese, &c.data_emissione.anno);
+
+  getchar();
+  printf("Numero seriale: ");
+  fgets(c.numero_seriale, sizeof(c.numero_seriale), stdin);
+  c.numero_seriale[strcspn(c.numero_seriale, "\n")] = 0;
+
+  printf("Stato: ");
+  fgets(c.stato, sizeof(c.stato), stdin);
+  c.stato[strcspn(c.stato, "\n")] = 0;
+
+  printf("Camera di Commercio: ");
+  fgets(c.camera_commercio, sizeof(c.camera_commercio), stdin);
+  c.camera_commercio[strcspn(c.camera_commercio, "\n")] = 0;
+
+  NodoCertificato *nuovoNodo = malloc(sizeof(NodoCertificato));
+  if (nuovoNodo == NULL)
+  {
+    printf("Errore allocazione memoria.\n");
     return;
   }
 
-  cert.id_azienda = id_az;
+  nuovoNodo->dato = c;
+  nuovoNodo->next = *lista;
+  *lista = nuovoNodo;
 
-  printf("Numero seriale: ");
-  getchar();
-  fgets(cert.numero_seriale, sizeof(cert.numero_seriale), stdin);
-  cert.numero_seriale[strcspn(cert.numero_seriale, "\n")] = 0;
-
-  printf("Stato certificato: ");
-  fgets(cert.stato, sizeof(cert.stato), stdin);
-  cert.stato[strcspn(cert.stato, "\n")] = 0;
-
-  printf("Camera di commercio: ");
-  fgets(cert.camera_commercio, sizeof(cert.camera_commercio), stdin);
-  cert.camera_commercio[strcspn(cert.camera_commercio, "\n")] = 0;
-
-  printf("Data emissione (gg mm aaaa): ");
-  scanf("%d %d %d", &cert.data_emissione.giorno, &cert.data_emissione.mese, &cert.data_emissione.anno);
-
-  cert.id_prodotto = 0;
-  cert.id_destinazione = 0;
-
-  NodoCertificato *nuovo = (NodoCertificato *)malloc(sizeof(NodoCertificato));
-  nuovo->dato = cert;
-  nuovo->next = *lista;
-  *lista = nuovo;
-
-  printf("\nCertificato creato con ID %d associato all'azienda ID %d\n", cert.id_certificato, cert.id_azienda);
+  printf("Certificato inserito con ID %d\n", c.id_certificato);
 }
 
 void stampaListaCertificati(ListaCertificati lista)

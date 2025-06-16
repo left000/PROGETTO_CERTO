@@ -38,6 +38,15 @@ int main()
       stampaProdotto();
       break;
     case 5:
+      creaDestinazione();
+      break;
+    case 6:
+      stampaDestinazioni();
+      break;
+    case 7:
+      inserisciCertificatoDaTastiera(&lista);
+      break;
+    case 8:
       stampaListaCertificati(lista);
       break;
     case 0:
