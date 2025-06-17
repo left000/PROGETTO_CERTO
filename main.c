@@ -18,6 +18,8 @@ int main()
     printf("6 - Visualizza Destinazione\n");
     printf("7 - Creare un Certificato\n");
     printf("8 - Crea Certificato di Origine\n");
+    printf("9 - Salva certificati su file\n");
+    printf("10 - Carica certificati da file\n");
 
     printf("0 - Esci\n");
     printf("Scelta: ");
@@ -48,6 +50,12 @@ int main()
       break;
     case 8:
       stampaListaCertificati(lista);
+      break;
+    case 9:
+      salvaCertificatiFile(lista, "certificati.txt");
+      break;
+    case 10:
+      caricaCertificatiFile(&lista, "certificati.txt");
       break;
     case 0:
       printf("Uscita\n");

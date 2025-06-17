@@ -325,3 +325,74 @@ void stampaListaCertificati(ListaCertificati lista)
     corrente = corrente->next;
   }
 }
+
+void saveCertificatiSuFile(ListaCertificati lista, const char *nomeFile)
+{
+  FILE *fp = fopen(nomeFile, "w");
+  if (fp == NULL)
+  {
+    printf("Errore nell'apertura del file per la scrittura.\n");
+    return;
+  }
+
+  NodoCertificato *corrente = lista;
+  while (corrente != NULL)
+  {
+    CertificatoOrigine c = corrente->dato;
+    fprintf(fp, "%d;%d;%d;%d;%02d/%02d/%04d;%s;%s;%s\n",
+            c.id_certificato,
+            c.id_azienda,
+            c.id_prodotto,
+            c.id_destinazione,
+            c.data_emissione.giorno,
+            c.data_emissione.mese,
+            c.data_emissione.anno,
+            c.numero_seriale,
+            c.stato,
+            c.camera_commercio);
+    corrente = corrente->next;
+  }
+
+  fclose(fp);
+  printf("Certificati salvati correttamente su '%s'.\n", nomeFile);
+}
+
+void loadCertificatiDaFile(ListaCertificati *lista, const char *nomeFile)
+{
+  FILE *fp = fopen(nomeFile, "r");
+  if (fp == NULL)
+  {
+    printf("File '%s' non trovato o impossibile da aprire.\n", nomeFile);
+    return;
+  }
+
+  CertificatoOrigine c;
+  while (fscanf(fp, "%d;%d;%d;%d;%d/%d/%d;%29[^;];%14[^;];%99[^\n]\n",
+                &c.id_certificato,
+                &c.id_azienda,
+                &c.id_prodotto,
+                &c.id_destinazione,
+                &c.data_emissione.giorno,
+                &c.data_emissione.mese,
+                &c.data_emissione.anno,
+                c.numero_seriale,
+                c.stato,
+                c.camera_commercio) == 10)
+  {
+
+    NodoCertificato *nuovo = malloc(sizeof(NodoCertificato));
+    if (!nuovo)
+    {
+      printf("Errore allocazione memoria.\n");
+      fclose(fp);
+      return;
+    }
+
+    nuovo->dato = c;
+    nuovo->next = *lista;
+    *lista = nuovo;
+  }
+
+  fclose(fp);
+  printf("Certificati caricati da '%s'.\n", nomeFile);
+}

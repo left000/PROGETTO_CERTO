@@ -64,5 +64,7 @@ void stampaDestinazioni();
 void inizializzaLista(ListaCertificati *lista);
 void inserisciCertificatoDaTastiera(ListaCertificati *lista);
 void stampaListaCertificati(ListaCertificati lista);
+void saveCertificatiFile(ListaCertificati lista, const char *nomeFile);
+void loadCertificatiFile(ListaCertificati *lista, const char *nomeFile);
 
 #endif
