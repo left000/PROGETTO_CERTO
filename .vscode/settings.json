@@ -1,6 +1,10 @@
 {
   "files.associations": {
     "certificato.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "prodotto.h": "c",
+    "string.h": "c",
+    "destinazione.h": "c"
   }
 }
