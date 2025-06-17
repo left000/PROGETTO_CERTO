@@ -235,4 +235,93 @@ void inserisciCertificatoDaTastiera(ListaCertificati *lista)
 
 void stampaListaCertificati(ListaCertificati lista)
 {
+  if (lista == NULL)
+  {
+    printf("⚠ Nessun certificato presente.\n");
+    return;
+  }
+
+  NodoCertificato *corrente = lista;
+
+  while (corrente != NULL)
+  {
+    CertificatoOrigine c = corrente->dato;
+
+    // Cerca azienda
+    Azienda *az = NULL;
+    for (int i = 0; i < contaAziende; i++)
+    {
+      if (aziende[i].id == c.id_azienda)
+      {
+        az = &aziende[i];
+        break;
+      }
+    }
+
+    // Cerca prodotto
+    Prodotto *pr = NULL;
+    for (int i = 0; i < contaProdotti; i++)
+    {
+      if (prodotti[i].id == c.id_prodotto)
+      {
+        pr = &prodotti[i];
+        break;
+      }
+    }
+
+    // Cerca destinazione
+    Destinazione *dest = NULL;
+    for (int i = 0; i < contaDestinazioni; i++)
+    {
+      if (destinazioni[i].id == c.id_destinazione)
+      {
+        dest = &destinazioni[i];
+        break;
+      }
+    }
+
+    // Stampa info certificato
+    printf("\n📄 Certificato ID: %d\n", c.id_certificato);
+    printf("Numero seriale: %s\n", c.numero_seriale);
+    printf("Data emissione: %02d/%02d/%04d\n", c.data_emissione.giorno, c.data_emissione.mese, c.data_emissione.anno);
+    printf("Stato: %s\n", c.stato);
+    printf("Camera commercio: %s\n", c.camera_commercio);
+
+    // Stampa azienda
+    if (az != NULL)
+    {
+      printf("🏢 Azienda: %s (P.IVA: %s) | %s, %s\n",
+             az->ragione_sociale, az->partita_iva, az->indirizzo, az->nazione);
+    }
+    else
+    {
+      printf("🏢 Azienda: NON TROVATA\n");
+    }
+
+    // Stampa prodotto
+    if (pr != NULL)
+    {
+      printf("📦 Prodotto: %s | Peso: %.2f kg | Valore: %.2f € | Codice TARIC: %s\n",
+             pr->descrizione, pr->peso_kg, pr->valore_euro, pr->codice_taric);
+    }
+    else
+    {
+      printf("📦 Prodotto: NON TROVATO\n");
+    }
+
+    // Stampa destinazione
+    if (dest != NULL)
+    {
+      printf("🌍 Destinazione: %s | Porto: %s | Mezzo: %s\n",
+             dest->paese, dest->porto_arrivo, dest->mezzo_trasporto);
+    }
+    else
+    {
+      printf("🌍 Destinazione: NON TROVATA\n");
+    }
+
+    printf("-------------------------------------------------\n");
+
+    corrente = corrente->next;
+  }
 }

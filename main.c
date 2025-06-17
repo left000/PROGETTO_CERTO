@@ -18,7 +18,7 @@ int main()
     printf("6 - Visualizza Destinazione\n");
     printf("7 - Creare un Certificato\n");
     printf("8 - Crea Certificato di Origine\n");
-    printf("9 - Stampa Certificati\n");
+
     printf("0 - Esci\n");
     printf("Scelta: ");
     scanf("%d", &scelta);
