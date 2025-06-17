@@ -1,1 +1,10 @@
-1;1;1;1;10/10/1111;101010;5050;5050
+
+Certificato ID: 1
+Numero seriale: fdsfs
+Data emissione: 10/10/5000
+Stato: fsdjkdsj
+Camera commercio: khkhjj
+Azienda: edu (P.IVA: edu) | edu, edu
+Prodotto: edu | Peso: -3145190.00 kg | Valore: 0.00 € | Codice TARIC: du
+Destinazione: bar | Porto: baru | Mezzo: bari
+-------------------------------------------------
